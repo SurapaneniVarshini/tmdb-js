@@ -3,6 +3,7 @@ import {PageDetails} from './get-movie.service';
 import {MovieDetails} from './get-movie.service';
 import {debounce} from './index';
 
+
 export class SearchComponent {
     userInput: HTMLInputElement = document.getElementById('movieInput') as HTMLInputElement;
     resultsDiv: HTMLDivElement = document.getElementById('results') as HTMLDivElement;
