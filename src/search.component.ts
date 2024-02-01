@@ -2,7 +2,7 @@ import {GetMovieService} from './get-movie.service';
 import {PageDetails} from './get-movie.service';
 import {MovieDetails} from './get-movie.service';
 import {debounce} from './index';
-
+throttle
 
 export class SearchComponent {
     userInput: HTMLInputElement = document.getElementById('movieInput') as HTMLInputElement;
