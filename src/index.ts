@@ -1,5 +1,5 @@
-import {GetMovieService} from './get-movie.service';
-import {SearchComponent} from './search.component';
+import {GetMovieService} from './services/get-movie.service';
+import {SearchComponent} from './components/search.component';
 
 export function debounce(func: Function, delay: number) {
   let timeoutId: ReturnType<typeof setTimeout>;

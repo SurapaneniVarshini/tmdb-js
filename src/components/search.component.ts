@@ -1,7 +1,7 @@
-import {GetMovieService} from './get-movie.service';
-import {PageDetails} from './get-movie.service';
-import {MovieDetails} from './get-movie.service';
-import {debounce} from './index';
+import {GetMovieService} from '../services/get-movie.service';
+import {PageDetails} from '../services/get-movie.service';
+import {MovieDetails} from '../services/get-movie.service';
+import {debounce} from '../index';
 
 
 export class SearchComponent {
@@ -34,6 +34,7 @@ export class SearchComponent {
       document.getElementById('nextBtn')?.addEventListener('click', () => this.onNextPage());
       document.getElementById('prevBtn')?.addEventListener('click', () => this.onPreviousPage());
     }
+    
     
     onNextPage() {
         if (this.currentPage < this.totalPages) {
@@ -76,7 +77,7 @@ export class SearchComponent {
           movieElement.classList.add('movie');
           movieElement.innerHTML = `
             <h3>${movie.title}</h3>
-            <p>${movie.overview}</p>
+            <p>Overview: ${movie.overview}</p>
             <p>Release Date: ${movie.release_date}</p>
             <p>Vote Average: ${movie.vote_average}</p>
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">

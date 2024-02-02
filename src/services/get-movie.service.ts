@@ -1,4 +1,4 @@
-import {API_KEY, BASE_URL} from '../env';
+import {API_KEY, BASE_URL} from '../../env';
 
 export class GetMovieService {
   private mainUrl = BASE_URL + API_KEY + "&query=";

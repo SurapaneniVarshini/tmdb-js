@@ -8,18 +8,26 @@
     <link rel="stylesheet" href="./static/css/style.css">
 </head>
 
-<body style="text-align: center;">
+<body>
+    <header id="heading">
+        <h1>TMDB Movie Search</h1>
+    </header>
+    <ul>
+        <li><a class="active" href="index.html">Home-debounce</a></li>
+        <li><a href="throttle.html">Throttle</a></li>
+      </ul>
 <div>
-    <h1>Movie Search</h1>
+
     <input type="text" id="movieInput" placeholder="Enter movie name">
 
-    <div id="results" class="grid text-center" style="--bs-columns: 3;"></div>
-
+    <div id="results"></div>
+    <footer id="footer">
     <div id="pagination">
         <button id="prevBtn" class="btn btn-info">Previous</button>
         <span id="pageNumber"></span>
         <button id="nextBtn" class="btn btn-info">Next</button>
     </div>
+    </footer>
 </div>
 
 <script src="./static/bundle/script.js"></script>
