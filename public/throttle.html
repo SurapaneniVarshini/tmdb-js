@@ -1,33 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search</title>
+    <title>Movie Search with Throttle</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./static/css/style.css">
+    <style>
+        #loading {
+            display: none; 
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
 </head>
+
 <body>
-    <h3 style="color: white; text-align: center;">Implementing Throttle</h3>
-
-    <ul>
-        <li><a href="index.html">Home-debounce</a></li>
-        <li><a class="active" href="throttle.html">Throttle</a></li>
-    </ul>
-    <div>
-
-        <input type="text" id="movieInput" placeholder="Enter movie name">
-    
-        <div id="results" class="g-col-6 g-col-md-4"></div>
-        <footer id="footer">
-        <div id="pagination">
-            <button id="prevBtn" class="btn btn-info">Previous</button>
-            <span id="pageNumber"></span>
-            <button id="nextBtn" class="btn btn-info">Next</button>
+    <header id="heading">
+        <h1>TMDB Movie Search</h1> 
+    </header>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container d-flex align-items-center">
+            <a href="index.html"><i class="fa fa-home" aria-hidden="true" style="color: cadetblue;"></i></a>
+            <div class="navbar-brand" id="myHome"><a href="index.html" style="color:black; text-decoration: none;">Home</a></div>
+            <!-- <a href="throttle.html" style="color: black; text-decoration: none;">Throttle</a> -->
+            <form class="d-flex ms-auto">
+                <input class="form-control me-2" type="text" id="movieInput" placeholder="Enter movie name">
+            </form>
         </div>
-        </footer>
+    </nav>
+    <div id="results"></div>
+    <div id="loading">
+        <i class="fas fa-spinner fa-spin"></i> Loading...
     </div>
-<script src="./static/bundle/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="./static/bundle/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                loadNextPage();
+            }
+        });
+
+        let loading = false; 
+        let currentPage = 1;
+        let totalPages = Infinity; 
+
+        function loadNextPage() {
+            if (!loading && currentPage <= totalPages) {
+                loading = true;
+                document.getElementById('loading').style.display = 'block'; 
+
+                fetchNextPage()
+                    .then(data => {
+                        totalPages = data.total_pages; 
+                        renderResults(data.results);
+                        currentPage++;
+                        if (currentPage <= totalPages) {
+                            setTimeout(() => { 
+                                loading = false;
+                                document.getElementById('loading').style.display = 'none'; 
+                            }, 1000);
+                        } else {
+                            loading = false;
+                            document.getElementById('loading').style.display = 'none'; 
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error: ${error.message}`);
+                        loading = false;
+                        document.getElementById('loading').style.display = 'none'; 
+                    });
+            }
+        }
+
+        function fetchNextPage() {
+            const input = document.getElementById('movieInput').value.trim();
+            const url = `https://api.themoviedb.org/3/search/movie?api_key=0dc79e9f8d8261756060e27eae2708db&query=${input}&page=${currentPage}`;
+            return fetch(url)
+                .then(response => response.json())
+                .catch(error => {
+                    console.error(`Error: ${error.message}`);
+                    throw error;
+                });
+        }
+
+        function renderResults(results) {
+            const resultsDiv = document.getElementById('results');
+            results.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie');
+                movieCard.innerHTML = `
+                    <div class="card">
+                        <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" class="card-img-top" alt="${movie.title}">
+                        <div class="card-body">
+                            <h5 class="card-title">${movie.title}</h5>
+                            <p class="card-text">Release Date: ${movie.release_date}</p>
+                            <p class="card-text">Vote Average: ${movie.vote_average}</p>
+                        </div>
+                    </div>
+                `;
+                resultsDiv.appendChild(movieCard);
+            });
+        }
+    </script>
 </body>
 </html>

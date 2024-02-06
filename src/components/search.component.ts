@@ -25,7 +25,6 @@ export class SearchComponent {
       this.search();
     });
 
-    // Hide buttons on initialization
     this.togglePaginationButtons(false);
 
     document.getElementById('nextBtn')?.addEventListener('click', () => this.onNextPage());
@@ -43,7 +42,6 @@ export class SearchComponent {
           this.pageData = this.pageDetails.results;
           this.currentPage = 1; 
           this.renderResults();
-          // Show/hide pagination buttons based on total pages
           this.togglePaginationButtons(this.totalPages > 1);
         })
         .catch(error => {
