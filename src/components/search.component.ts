@@ -4,15 +4,25 @@ import { MovieDetails } from '../services/get-movie.service';
 import { debounce } from '../index';
 
 export class SearchComponent {
-  userInput: HTMLInputElement = document.getElementById('movieInput') as HTMLInputElement;
-  resultsDiv: HTMLDivElement = document.getElementById('results') as HTMLDivElement;
-  pageDetails: PageDetails = { page: 1, results: [], total_pages: 0, total_results: 0 };
-  pageSize: number = this.pageDetails.results.length;
-  currentPage: number = 1;
-  totalPages: number = this.pageDetails.total_pages;
-  pageData: MovieDetails[] = [];
+  userInput: HTMLInputElement;
+  resultsDiv: HTMLDivElement;
+  pageDetails: PageDetails;
+  pageSize: number;
+  currentPage: number;
+  totalPages: number;
+  pageData: MovieDetails[];
+  loading: boolean;
 
-  constructor(private movieService: GetMovieService) {}
+  constructor(private movieService: GetMovieService) {
+    this.userInput = document.getElementById('movieInput') as HTMLInputElement;
+    this.resultsDiv = document.getElementById('results') as HTMLDivElement;
+    this.pageDetails = { page: 1, results: [], total_pages: 0, total_results: 0 };
+    this.pageSize = this.pageDetails.results.length;
+    this.currentPage = 1;
+    this.totalPages = this.pageDetails.total_pages;
+    this.pageData = [];
+    this.loading = false;
+  }
 
   init() {
     this.userInput.addEventListener('input', debounce(() => {
@@ -25,7 +35,7 @@ export class SearchComponent {
       this.search();
     });
 
-    this.togglePaginationButtons(false);
+    this.togglePaginationButtons(false); 
 
     document.getElementById('nextBtn')?.addEventListener('click', () => this.onNextPage());
     document.getElementById('prevBtn')?.addEventListener('click', () => this.onPreviousPage());
@@ -40,7 +50,7 @@ export class SearchComponent {
           this.pageSize = this.pageDetails.results.length;
           this.totalPages = this.pageDetails.total_pages;
           this.pageData = this.pageDetails.results;
-          this.currentPage = 1; 
+          this.currentPage = 1;
           this.renderResults();
           this.togglePaginationButtons(this.totalPages > 1);
         })
@@ -95,7 +105,7 @@ export class SearchComponent {
 
       const modalId = `overviewModal${index}`;
       const movieCard = document.createElement('div');
-      movieCard.classList.add('col-md-2', 'col-6', 'movie'); 
+      movieCard.classList.add('col-md-2', 'col-6', 'movie');
       movieCard.innerHTML = `
         <div class="card" data-bs-toggle="modal" data-bs-target="#${modalId}">
           <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" class="card-img-top" alt="${movie.title}">

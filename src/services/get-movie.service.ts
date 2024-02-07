@@ -4,8 +4,6 @@ export class GetMovieService {
   private mainUrl = BASE_URL + API_KEY + "&query=";
   private url: string = '';
 
-  constructor() {}
-
   getMovieDetails(searchInput: string): Promise<PageDetails> {
     this.url = this.mainUrl + searchInput;
     return fetch(this.mainUrl + searchInput)
