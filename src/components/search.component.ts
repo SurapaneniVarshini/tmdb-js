@@ -29,12 +29,6 @@ export class SearchComponent {
       this.search();
     }, 750));
 
-    const searchForm = document.querySelector('.d-flex.ms-auto') as HTMLFormElement;
-    searchForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      this.search();
-    });
-
     this.togglePaginationButtons(false); 
 
     document.getElementById('nextBtn')?.addEventListener('click', () => this.onNextPage());
