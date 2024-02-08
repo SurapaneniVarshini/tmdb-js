@@ -1,14 +1,8 @@
-// import {API_KEY} from '../env';
-
-// const {API_KEy} = require('../env');
-
 let currentPageMode = 'home'; 
 
 window.addEventListener('scroll', () => {
     if ((currentPageMode === 'infiniteScroll') && !loading && (window.innerHeight + window.scrollY >= document.body.offsetHeight)) {
-        // console.log('Loading next page');
         loadNextPage();
-        // console.log(`Page ${currentPage} of ${totalPages}`);
     }
 });
 
@@ -18,7 +12,6 @@ let totalPages = Infinity;
 
 function loadNextPage() {
     if (currentPageMode === 'infiniteScroll' && !loading && currentPage <= totalPages) {
-        // console.log('Load next page');
         loading = true;
         document.getElementById('loading').style.display = 'block'; 
 
@@ -50,9 +43,8 @@ function loadNextPage() {
 
 
 async function fetchNextPage() {
-    // console.log('Fetching next page');
     const input = document.getElementById('movieInput').value.trim();
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=0dc79e9f8d8261756060e27eae2708db&query=${input}&page=${currentPage}`;
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${window.API_KEY}&query=${input}&page=${currentPage}`;
     try {
         const response = await fetch(url);
         return await response.json();
@@ -63,7 +55,6 @@ async function fetchNextPage() {
 }
 
 function renderResults(results) {
-    // console.log('Rendering results');
     const resultsDiv = document.getElementById('results');
     results.forEach(movie => {
         const movieCard = document.createElement('div');
